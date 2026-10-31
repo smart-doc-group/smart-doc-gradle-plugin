@@ -53,6 +53,11 @@ public class SmartDocPluginExtension {
     private Boolean increment = false;
 
     /**
+     * Output formats of the smartDocGenerate task, comma separated
+     */
+    private String formats = "markdown";
+
+    /**
      * Smart doc config file, like smart-doc.json
      * @return Config File
      */
@@ -94,6 +99,14 @@ public class SmartDocPluginExtension {
 
     public Set<String> getInclude() {
         return include;
+    }
+
+    public String getFormats() {
+        return formats;
+    }
+
+    public void setFormats(String formats) {
+        this.formats = formats;
     }
 
     public Boolean getIncrement() {

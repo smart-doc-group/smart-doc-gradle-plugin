@@ -151,7 +151,43 @@ gradle smartDocRpcMarkdown
 gradle smartDocRpcAdoc
 // 推送rpc接口到torna中
 gradle tornaRpc
+
+// 一次解析生成多种格式
+gradle smartDocGenerate -Psmartdoc.formats=markdown,html,adoc,openapi
 ```
+#### 一次解析生成多种格式
+
+`smartDocGenerate` 从一次源码扫描生成多种格式。解析参数相同的格式会共用一次解析，
+因此比逐个执行任务更快。
+
+格式可以通过命令行参数传入，也可以在 `smartdoc` 扩展中配置：
+
+```groovy
+smartdoc {
+    formats = 'markdown,html,adoc,openapi'
+}
+```
+
+支持的值（`smartdoc.formats` 逗号分隔、大小写不敏感）：
+
+| 值 | 别名 | 输出 |
+|----|------|------|
+| `markdown` | `md` | `AllInOne.md`，`allInOne=false` 时按 controller 拆分 |
+| `adoc` | `asciidoc` | `index.adoc` |
+| `html` | | `index.html`、debug 页面和 `search.js` |
+| `word` | `docx` | `AllInOne.docx` |
+| `openapi` | `openapi3` | `openapi.json`（OpenAPI 3.1） |
+| `swagger` | `openapi2` | `openapi.json`（Swagger 2.0） |
+| `jmeter` | | JMeter 压测脚本 |
+| `postman` | | `postman.json` |
+
+注意：
+
+- 不传格式时默认 `markdown`。
+- 不要同时使用 `openapi` 和 `swagger`：两者都写 `openapi.json`，后者会覆盖前者。
+- Torna 不在 `smartDocGenerate` 内（会向远程服务推送），仍需使用 `tornaRest`。
+- markdown/html/word 共用一次解析，jmeter/postman 共用一次，adoc 和 openapi 各自一次。
+
 #### Use IDEA
 当你使用`IDEA`时，可以通过`maven Helper`插件选择生成何种文档。
 
