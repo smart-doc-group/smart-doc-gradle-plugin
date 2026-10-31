@@ -152,7 +152,47 @@ gradle smartDocRpcMarkdown
 gradle smartDocRpcAdoc
 // Push RPC interfaces to torna
 gradle tornaRpc
+
+// Generate several formats from one parse
+gradle smartDocGenerate -Psmartdoc.formats=markdown,html,adoc,openapi
 ```
+#### Generate several formats in one execution
+
+`smartDocGenerate` writes several output formats from a single source scan. Formats that need
+the same parse flags share one parse, so one execution is faster than running one task per
+format.
+
+Formats can be passed on the command line, or configured in the `smartdoc` extension:
+
+```groovy
+smartdoc {
+    formats = 'markdown,html,adoc,openapi'
+}
+```
+
+Supported values (`smartdoc.formats` is comma separated and case-insensitive):
+
+| Value | Aliases | Output |
+|-------|---------|--------|
+| `markdown` | `md` | `AllInOne.md`, or one `.md` per controller when `allInOne` is false |
+| `adoc` | `asciidoc` | `index.adoc` |
+| `html` | | `index.html`, debug page and `search.js` |
+| `word` | `docx` | `AllInOne.docx` |
+| `openapi` | `openapi3` | `openapi.json` (OpenAPI 3.1) |
+| `swagger` | `openapi2` | `openapi.json` (Swagger 2.0) |
+| `jmeter` | | JMeter performance test script |
+| `postman` | | `postman.json` |
+
+Notes:
+
+- When no formats are configured the default is `markdown`.
+- Do not combine `openapi` and `swagger` in one execution: both write `openapi.json` and the
+  latter overwrites the former.
+- Torna is not part of `smartDocGenerate` because it pushes documents to a remote server. Keep
+  using `tornaRest` for that.
+- Parses are shared by formats with the same flags: markdown, html and word share one parse,
+  jmeter and postman share another, adoc and openapi each need their own.
+
 #### Use In IntelliJ IDEA
 On Use IntelliJ IDE, if you have added `smart-doc-gradle-plugin` to the project, 
 you can directly find the plugin `smart-doc` plugin and click to generate API documentation.

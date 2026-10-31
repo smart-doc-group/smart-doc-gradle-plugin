@@ -43,6 +43,11 @@ public interface GlobalConstants {
     String TASK_GROUP = "Documentation";
 
     /**
+     * Generate several document formats from one parse
+     */
+    String GENERATE_TASK = "smartDocGenerate";
+
+    /**
      * Generate Rest html document
      */
     String REST_HTML_TASK = "smartDocRestHtml";
@@ -162,5 +167,15 @@ public interface GlobalConstants {
     String SRC_MAIN_JAVA_PATH = "src/main/java";
 
     String CONFIG_FILE = "smartdoc.configFile";
+
+    /**
+     * Output formats property, comma separated
+     */
+    String SMARTDOC_FORMATS = "smartdoc.formats";
+
+    /**
+     * Output formats property used by the maven plugin
+     */
+    String FORMATS = "formats";
 
 }

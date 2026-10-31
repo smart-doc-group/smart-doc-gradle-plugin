@@ -38,6 +38,8 @@ public class TaskConstants {
     public static Map<String, Class<? extends DocBaseTask>> taskMap = new HashMap<>();
 
     static {
+        // generate several formats from one parse
+        taskMap.put(GlobalConstants.GENERATE_TASK, GenerateTask.class);
         // create html
         taskMap.put(GlobalConstants.REST_HTML_TASK, RestHtmlTask.class);
         // create adoc
